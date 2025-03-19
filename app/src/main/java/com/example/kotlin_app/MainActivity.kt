@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     LoginPage(navController)
                 }
                 composable("register_page") {
-                    RegisterPage()
+                    RegisterPage(navController)
                 }
             })
         }

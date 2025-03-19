@@ -41,27 +41,27 @@ fun LoginPage(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
     ) {
-        Spacer(modifier = Modifier.height(62.dp)) // Odległość między zdjęciem a górą ekranu
+        Spacer(modifier = Modifier.height(62.dp))
 
         Image(
-            painter = painterResource(id = R.drawable.logo_1), // Dodanie zdjęcia
-            contentDescription = "Main Login_View_Picture", // Opis struktury zdjęcia
-            modifier = Modifier // Wielkość samegp zdjęcia ( wysokość + szerkość )
+            painter = painterResource(id = R.drawable.logo_1),
+            contentDescription = "Main Login_View_Picture",
+            modifier = Modifier
                 .size(129.dp)
         )
 
-        Spacer(modifier = Modifier.height(21.dp)) // Odległość między zdjęciem a napisem
+        Spacer(modifier = Modifier.height(21.dp))
 
         Text(
             text = "Sign in",
-            fontSize = 30.sp, // rozmiar fontu owego tekstu
+            fontSize = 30.sp,
             fontWeight = FontWeight.Bold, // !! Zmienić wartość na numeryczną opisaną w Figmie
             color = Color(0xFF4A148C), // !! Zmienic wartość owego koloru na hex z figmy , pocztać jak to zrobić
             textAlign = TextAlign.Left,
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(46.dp)) // Odległość pomiędzy przyciskiem Sign In oraz sekcją pierwszego TextFielda
+        Spacer(modifier = Modifier.height(46.dp))
 
         OutlinedTextField( // !! Owy TextField wymagać będzie poprawek , musimy zrobić customego textfielda dla passworda oraz e-maila
             value = "",
@@ -106,7 +106,7 @@ fun LoginPage(navController: NavHostController) {
             Text(text = "Sign in", color = Color.White)
         }
 
-        Spacer(modifier = Modifier.height(260.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Text(
             text = "Don’t have an account? Sign Up",
