@@ -1,6 +1,7 @@
 package com.example.kotlin_app.utils
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -9,6 +10,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -21,7 +23,7 @@ fun CustomPasswordField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
-    leadingIcon: Int,
+    leadingIcon: ImageVector ?= null,
     isPassword: Boolean = false
 ) {
     OutlinedTextField(
@@ -34,20 +36,26 @@ fun CustomPasswordField(
                 fontSize = 16.sp
             )
         },
-        leadingIcon = {
-            Icon(
-                painter = painterResource(id = leadingIcon),
-                contentDescription = "Input Icon",
-                tint = Color(0xFF7B1FA2) // Fioletowy kolor dla ikony
-            )
+
+        leadingIcon = leadingIcon?.let { icon ->
+            {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         },
         visualTransformation = if (isPassword) VisualTransformation.None else VisualTransformation.None,
         singleLine = true,
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp), // ✅ Rounded corners
+        modifier = Modifier
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
         colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Color(0xFF7B1FA2), // ✅ Purple border when focused
-            unfocusedIndicatorColor = Color(0xFF7B1FA2) // ✅ Purple border when not focused
+            focusedIndicatorColor = Colors.SecondPurple,
+            unfocusedIndicatorColor = Colors.SecondPurple,
+            unfocusedContainerColor = Color.White, // usuwa szarą poświatę
+            focusedContainerColor = Color.White, //
         )
     )
 }

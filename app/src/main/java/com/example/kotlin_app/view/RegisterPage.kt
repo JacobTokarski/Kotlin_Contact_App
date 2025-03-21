@@ -37,19 +37,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.fontResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.kotlin_app.R
+import com.example.kotlin_app.utils.Colors
+import com.example.kotlin_app.utils.CustomPasswordField
 import com.example.kotlin_app.utils.CustomTextField
 
 @Composable
 fun RegisterPage(navController: NavHostController){
     val interactionSource = remember { MutableInteractionSource() }
     var fullName by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var confirm_password by remember { mutableStateOf("") }
 
     Row(
         modifier = Modifier
@@ -70,40 +77,41 @@ fun RegisterPage(navController: NavHostController){
                 painter = painterResource(id = R.drawable.arrow),
                 contentDescription = "Back Icon",
                 modifier = Modifier
-                    .size(20.dp) //rozmiar strzałki
+                    .size(20.dp)
             )
 
             Text(
                 text = "Back",
-                color = Color(0xFF4A148C),
-                fontSize = 12.sp //rozmiar tekstu back
+                color = Colors.PrimaryPurple,
+                fontSize = 12.sp,
+                fontWeight = FontWeight(400) //nie wiem czy jest koniecznosc - zobaczymy
             )
         }
 
         Image(
             painter = painterResource(id = R.drawable.elipse),
-            contentDescription = "Top Right Image", //opis prawego zdjęcia
+            contentDescription = "Top Right Image",
             modifier = Modifier
-                .size(130.dp) //rozmiar prawego zdjęcia
-                .padding(top = 10.dp) //odległość prawego zdjęcia od góry ekranu
+                .size(130.dp) // te zdjęcie nie wiadomo jak jeszcze będzie wyglądać
+                .padding(top = 10.dp)
         )
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 20.dp), //padding na sztywno ustawiony dla kolumny
+            .padding(horizontal = 20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top,
     ) {
 
-        Spacer(modifier = Modifier.height(180.dp)) //odległość napisu Sign Up od góry ekranu
+        Spacer(modifier = Modifier.height(180.dp))
 
         Text(
             text = "Sign Up",
-            fontSize = 30.sp, //rozmiar identyczny jak w przypadku przycisku Sign In - zgadza siee
-            fontWeight = FontWeight.Bold, // !! Zmienić wartość na numeryczną opisaną w Figmie
-            color = Color(0xFF4A148C), // !! Zmienic wartość owego koloru na hex z figmy , pocztać jak to zrobić
+            fontSize = 30.sp,
+            fontWeight = FontWeight(700),
+            color = Colors.PrimaryPurple,
             textAlign = TextAlign.Left,
             modifier = Modifier
                 .fillMaxWidth()
@@ -112,7 +120,7 @@ fun RegisterPage(navController: NavHostController){
 
         Spacer(modifier = Modifier.height(46.dp))
 
-        CustomTextField( // !! Owy TextField wymagać będzie poprawek , musimy zrobić customego textfielda dla passworda oraz e-maila
+        CustomTextField(
             value = fullName,
             onValueChange = {fullName = it },
             placeholder = "Full Name",
@@ -121,38 +129,29 @@ fun RegisterPage(navController: NavHostController){
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        OutlinedTextField( // !! Owy TextField wymagać będzie poprawek , musimy zrobić customego textfielda dla passworda oraz e-maila
-            value = "",
-            onValueChange = {},
-            placeholder = { Text("Email") },
-            leadingIcon = { Icon(Icons.Default.Email, contentDescription = "User Icon") },
-            modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(12.dp)
+        CustomTextField(
+            value = email,
+            onValueChange = {email = it},
+            placeholder = "Email",
+            leadingIcon = Icons.Default.Email,
         )
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        OutlinedTextField( // !! Owy TextField wymagać będzie poprawek , musimy zrobić customego textfielda dla passworda oraz e-maila
-            value = "",
-            onValueChange = {},
-            placeholder = { Text("Password") },
-            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "User Icon") },
-            modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(12.dp)
+        CustomPasswordField(
+            value = password,
+            onValueChange = {password = it},
+            placeholder = "Password",
+            leadingIcon = Icons.Default.Lock,
         )
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        OutlinedTextField( // !! Owy TextField wymagać będzie poprawek , musimy zrobić customego textfielda dla passworda oraz e-maila
-            value = "",
-            onValueChange = {},
-            placeholder = { Text("Confirm Password") },
-            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "User Icon") },
-            modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(12.dp)
+        CustomPasswordField(
+            value = confirm_password,
+            onValueChange = { confirm_password = it},
+            placeholder = "Confirm Password",
+            leadingIcon = Icons.Default.Lock,
         )
 
         Spacer(modifier = Modifier.height(80.dp))
@@ -160,29 +159,29 @@ fun RegisterPage(navController: NavHostController){
         Button(
             onClick = { navController.navigate("login_page") },
             modifier = Modifier
-                .fillMaxWidth()
+                .width(390.dp)
                 .height(50.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xFF9C27B0))
+            shape = RoundedCornerShape(15.dp),
+            colors = ButtonDefaults.buttonColors(Colors.ThirdPurple)
         ) {
             Text(text = "Sign Up", color = Color.White)
         }
 
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.height(100.dp)) // wartość ta może ulec zmianie w zależności od formatowania
 
         Row {
             Text(
                 text = "Already have an account?",
                 fontSize = 15.sp,
-                color = Color.Blue
+                color = Colors.PrimaryPurple
         )
             Spacer(modifier = Modifier.padding(start = 5.dp))
 
             Text(
                 text = "Sign In",
                 fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Blue,
+                fontWeight = FontWeight(700),
+                color = Colors.PrimaryPurple,
                 modifier = Modifier
                     .clickable(
                         interactionSource = interactionSource,

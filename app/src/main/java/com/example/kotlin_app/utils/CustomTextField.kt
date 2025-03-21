@@ -45,16 +45,18 @@ fun CustomTextField(
                     imageVector = icon,
                     contentDescription = null,
 //                    tint = iconTint,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier
+                        .size(24.dp)
                 )
             }
         },
         singleLine = true,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
         colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Color(0xFF7B1FA2),
-            unfocusedIndicatorColor = Color(0xFF7B1FA2),
+            focusedIndicatorColor = Colors.SecondPurple,
+            unfocusedIndicatorColor = Colors.SecondPurple,
             unfocusedContainerColor = Color.White, //usuwa szarą poświatę
             focusedContainerColor = Color.White, //usuwa szarą poświatę po kliknięciu
         )
