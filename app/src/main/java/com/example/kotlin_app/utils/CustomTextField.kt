@@ -26,8 +26,7 @@ fun CustomTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
-    leadingIcon: ImageVector? = null, // Taki warunek pozwala dodać nową ikonę albo w ogóle jej nie dodawać
-//    iconTint: Color = Color(0xFF7B1FA2), // Jest to kolor ikony
+    leadingIcon: ImageVector? = null,
 ) {
     OutlinedTextField(
         value = value,
@@ -39,12 +38,11 @@ fun CustomTextField(
                 fontSize = 16.sp
             )
         },
-        leadingIcon = leadingIcon?.let { icon -> // 🔹 Ikona tylko, jeśli podano
+        leadingIcon = leadingIcon?.let { icon ->
             {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-//                    tint = iconTint,
                     modifier = Modifier
                         .size(24.dp)
                 )

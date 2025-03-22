@@ -48,6 +48,7 @@ fun LoginPage(navController: NavHostController) {
     val interactionSource = remember { MutableInteractionSource() }
     var email_or_username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+//    var passwordVisible by remeber { mutableStateOf("")} nie  wiem jeszcze gdzie to implementować , zobaczymy co i jak
 
     Column(
         modifier = Modifier
@@ -92,6 +93,7 @@ fun LoginPage(navController: NavHostController) {
             onValueChange = {password = it},
             placeholder = "Password",
             leadingIcon = Icons.Default.Lock,
+            isPassword = true //tutaj doszła zmiana , zobaczymy czy działa
         )
 
         Spacer(modifier = Modifier.height(40.dp))

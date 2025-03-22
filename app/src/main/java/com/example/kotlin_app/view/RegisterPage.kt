@@ -143,6 +143,7 @@ fun RegisterPage(navController: NavHostController){
             onValueChange = {password = it},
             placeholder = "Password",
             leadingIcon = Icons.Default.Lock,
+            isPassword = true
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -152,6 +153,7 @@ fun RegisterPage(navController: NavHostController){
             onValueChange = { confirm_password = it},
             placeholder = "Confirm Password",
             leadingIcon = Icons.Default.Lock,
+            isPassword = true
         )
 
         Spacer(modifier = Modifier.height(80.dp))
