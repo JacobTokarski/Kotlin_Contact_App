@@ -48,7 +48,6 @@ fun LoginPage(navController: NavHostController) {
     val interactionSource = remember { MutableInteractionSource() }
     var email_or_username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-//    var passwordVisible by remeber { mutableStateOf("")} nie  wiem jeszcze gdzie to implementować , zobaczymy co i jak
 
     Column(
         modifier = Modifier
@@ -68,14 +67,6 @@ fun LoginPage(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(21.dp))
 
-        Text(
-            text = "Sign in",
-            fontSize = 30.sp,
-            fontWeight = FontWeight(700),
-            color = Colors.PrimaryPurple,
-            textAlign = TextAlign.Left,
-            modifier = Modifier.fillMaxWidth()
-        )
 
         Spacer(modifier = Modifier.height(46.dp))
 
@@ -93,7 +84,7 @@ fun LoginPage(navController: NavHostController) {
             onValueChange = {password = it},
             placeholder = "Password",
             leadingIcon = Icons.Default.Lock,
-            isPassword = true //tutaj doszła zmiana , zobaczymy czy działa
+            isPassword = true  //tutaj doszła zmiana , zobaczymy czy działa
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -109,7 +100,7 @@ fun LoginPage(navController: NavHostController) {
         Spacer(modifier = Modifier.height(40.dp))
 
         Button(
-            onClick = { navController.navigate("register_page") },
+            onClick = { navController.navigate("home_page") },
             modifier = Modifier
                 .width(390.dp)
                 .height(50.dp),

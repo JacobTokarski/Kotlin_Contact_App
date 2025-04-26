@@ -30,6 +30,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,150 +50,175 @@ import com.example.kotlin_app.R
 import com.example.kotlin_app.utils.Colors
 import com.example.kotlin_app.utils.CustomPasswordField
 import com.example.kotlin_app.utils.CustomTextField
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun RegisterPage(navController: NavHostController){
+fun RegisterPage(navController: NavHostController) {
     val interactionSource = remember { MutableInteractionSource() }
     var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirm_password by remember { mutableStateOf("") }
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ){
-        Row(
-            modifier = Modifier
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null // Usuwa poświatę takiego szarego kwadratu podczas naciśnięcia na back
-                ) { navController.popBackStack() } // możliwość powrotu do poprzedniego ekranu
-                .padding(start = 12.dp, top = 59.dp), //odległość całej struktury przycisku Back na ekranie Register
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            Image(
-                painter = painterResource(id = R.drawable.arrow),
-                contentDescription = "Back Icon",
-                modifier = Modifier
-                    .size(20.dp)
-            )
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = true
 
-            Text(
-                text = "Back",
-                color = Colors.PrimaryPurple,
-                fontSize = 12.sp,
-                fontWeight = FontWeight(400) //nie wiem czy jest koniecznosc - zobaczymy
-            )
-        }
-
-        Image(
-            painter = painterResource(id = R.drawable.elipse),
-            contentDescription = "Top Right Image",
-            modifier = Modifier
-                .size(130.dp) // te zdjęcie nie wiadomo jak jeszcze będzie wyglądać
-                .padding(top = 10.dp)
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            color = Color.White,
+            darkIcons = useDarkIcons
         )
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top,
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
 
-        Spacer(modifier = Modifier.height(180.dp))
-
-        Text(
-            text = "Sign Up",
-            fontSize = 30.sp,
-            fontWeight = FontWeight(700),
-            color = Colors.PrimaryPurple,
-            textAlign = TextAlign.Left,
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
-
-        )
-
-        Spacer(modifier = Modifier.height(46.dp))
-
-        CustomTextField(
-            value = fullName,
-            onValueChange = {fullName = it },
-            placeholder = "Full Name",
-            leadingIcon = Icons.Default.Person
-        )
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        CustomTextField(
-            value = email,
-            onValueChange = {email = it},
-            placeholder = "Email",
-            leadingIcon = Icons.Default.Email,
-        )
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        CustomPasswordField(
-            value = password,
-            onValueChange = {password = it},
-            placeholder = "Password",
-            leadingIcon = Icons.Default.Lock,
-            isPassword = true
-        )
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        CustomPasswordField(
-            value = confirm_password,
-            onValueChange = { confirm_password = it},
-            placeholder = "Confirm Password",
-            leadingIcon = Icons.Default.Lock,
-            isPassword = true
-        )
-
-        Spacer(modifier = Modifier.height(80.dp))
-
-        Button(
-            onClick = { navController.navigate("login_page") },
-            modifier = Modifier
-                .width(390.dp)
-                .height(50.dp),
-            shape = RoundedCornerShape(15.dp),
-            colors = ButtonDefaults.buttonColors(Colors.ThirdPurple)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Sign Up", color = Color.White)
-        }
-
-        Spacer(modifier = Modifier.height(100.dp)) // wartość ta może ulec zmianie w zależności od formatowania
-
-        Row {
-            Text(
-                text = "Already have an account?",
-                fontSize = 15.sp,
-                color = Colors.PrimaryPurple
-        )
-            Spacer(modifier = Modifier.padding(start = 5.dp))
-
-            Text(
-                text = "Sign In",
-                fontSize = 15.sp,
-                fontWeight = FontWeight(700),
-                color = Colors.PrimaryPurple,
+            Row(
                 modifier = Modifier
                     .clickable(
                         interactionSource = interactionSource,
-                        indication = null
-                    ) { navController.navigate("login_page") }
+                        indication = null // Usuwa poświatę takiego szarego kwadratu podczas naciśnięcia na back
+                    ) { navController.popBackStack() } // możliwość powrotu do poprzedniego ekranu
+                    .padding(
+                        start = 12.dp,
+                        top = 59.dp
+                    ), //odległość całej struktury przycisku Back na ekranie Register
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.arrow),
+                    contentDescription = "Back Icon",
+                    modifier = Modifier
+                        .size(20.dp)
+                )
+
+                Text(
+                    text = "Back",
+                    color = Colors.PrimaryPurple,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight(400)
+                )
+            }
+
+            Image(
+                painter = painterResource(id = R.drawable.elipse),
+                contentDescription = "Top Right Image",
+                modifier = Modifier
+                    .size(130.dp) // te zdjęcie nie wiadomo jak jeszcze będzie wyglądać
+                    .padding(top = 10.dp)
             )
+        }
+
+
+        // tutaj cała struktura kodu jest dobrze - wszystko działa i nie ma problemów
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top,
+        ) {
+
+            Spacer(modifier = Modifier.height(180.dp))
+
+            Text(
+                text = "Sign Up",
+                fontSize = 30.sp,
+                fontWeight = FontWeight(700),
+                color = Colors.PrimaryPurple,
+                textAlign = TextAlign.Left,
+                modifier = Modifier
+                    .fillMaxWidth()
+
+            )
+
+            Spacer(modifier = Modifier.height(46.dp))
+
+            CustomTextField(
+                value = fullName,
+                onValueChange = { fullName = it },
+                placeholder = "Full Name",
+                leadingIcon = Icons.Default.Person
+            )
+
+            Spacer(modifier = Modifier.height(40.dp))
+
+            CustomTextField(
+                value = email,
+                onValueChange = { email = it },
+                placeholder = "Email",
+                leadingIcon = Icons.Default.Email,
+            )
+
+            Spacer(modifier = Modifier.height(40.dp))
+
+            CustomPasswordField(
+                value = password,
+                onValueChange = { password = it },
+                placeholder = "Password",
+                leadingIcon = Icons.Default.Lock,
+                isPassword = true
+            )
+
+            Spacer(modifier = Modifier.height(40.dp))
+
+            CustomPasswordField(
+                value = confirm_password,
+                onValueChange = { confirm_password = it },
+                placeholder = "Confirm Password",
+                leadingIcon = Icons.Default.Lock,
+                isPassword = true
+            )
+
+            Spacer(modifier = Modifier.height(80.dp))
+
+            Button(
+                onClick = { navController.navigate("login_page") },
+                modifier = Modifier
+                    .width(390.dp)
+                    .height(50.dp),
+                shape = RoundedCornerShape(15.dp),
+                colors = ButtonDefaults.buttonColors(Colors.ThirdPurple)
+            ) {
+                Text(text = "Sign Up", color = Color.White)
+            }
+
+            Spacer(modifier = Modifier.height(100.dp)) // wartość ta może ulec zmianie w zależności od formatowania
+
+            Row {
+                Text(
+                    text = "Already have an account?",
+                    fontSize = 15.sp,
+                    color = Colors.PrimaryPurple
+                )
+                Spacer(modifier = Modifier.padding(start = 5.dp))
+
+                Text(
+                    text = "Sign In",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight(700),
+                    color = Colors.PrimaryPurple,
+                    modifier = Modifier
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null
+                        ) { navController.navigate("login_page") }
+                )
+            }
         }
     }
 }
+
+
+
+
 
 
 

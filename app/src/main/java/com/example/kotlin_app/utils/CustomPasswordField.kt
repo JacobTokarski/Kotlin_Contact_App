@@ -71,6 +71,7 @@ fun CustomPasswordField(
                 }
             }
         },
+
         visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
         singleLine = true,
         modifier = Modifier

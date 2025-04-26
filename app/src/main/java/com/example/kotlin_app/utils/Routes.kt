@@ -4,4 +4,5 @@ object Routes {
     val loginPage = "login_page"
     val registerPage = "register_page"
     val homepage = "home_page"
+    val todolistpage = "todo_list_page"
 }
