@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -30,19 +31,29 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.kotlin_app.R
 import com.example.kotlin_app.db.Todo
-import com.example.kotlin_app.viewmodel.TodoViewModel
+import com.example.kotlin_app.viewmodel.HomeViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-fun TodoListPage(viewModel: TodoViewModel){
+fun HomePage(modifier: Modifier, navController: NavHostController, viewModel: HomeViewModel){
 
     val todoList by viewModel.todoList.observeAsState()
     var inputText by remember {
         mutableStateOf("")
     }
+
+//    val authState = authViewModel.authState.observeAsState()
+//
+//    LaunchedEffect(authState.value) {
+//        when(authState.value){
+//            is AuthState.Unauthenticated -> navController.navigate(Routes.login)
+//            else -> Unit
+//        }
+//    }
 
     Column(
         modifier = Modifier

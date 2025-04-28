@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.Date
 
-class TodoViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
 
     val todoDao = MainApplication.todoDatabase.getTodoDao()
 

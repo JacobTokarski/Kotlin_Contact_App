@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 
 @Dao
-interface TodoDao {
+interface LocalDao {
     @Query("SELECT * FROM Todo ORDER BY createdAt DESC")
     fun getAllTodo() : LiveData<List<Todo>>
 

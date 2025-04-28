@@ -1,5 +1,6 @@
 package com.example.kotlin_app.view
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,21 +19,20 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -41,18 +40,38 @@ import com.example.kotlin_app.R
 import com.example.kotlin_app.utils.Colors
 import com.example.kotlin_app.utils.CustomPasswordField
 import com.example.kotlin_app.utils.CustomTextField
+import com.example.kotlin_app.utils.Routes
+import com.example.kotlin_app.viewmodel.AuthState
+import com.example.kotlin_app.viewmodel.AuthViewModel
 
 
 @Composable
-fun LoginPage(navController: NavHostController) {
+fun LoginPage(modifier: Modifier, navController: NavHostController, authViewModel: AuthViewModel) {
+
+//    val authState = authViewModel.authState.observeAsState()
+//    val context = LocalContext.current
+
     val interactionSource = remember { MutableInteractionSource() }
     var email_or_username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+//    LaunchedEffect(authState.value) {
+//        when (authState.value) {
+//            is AuthState.Authenticated -> navController.navigate(Routes.homepage)
+//            is AuthState.Error -> Toast.makeText(
+//                context,
+//                (authState.value as AuthState.Error).message,
+//                Toast.LENGTH_LONG
+//            ).show()
+//
+//            else -> Unit
+//        }
+//    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp), //?
+            .padding(horizontal = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
     ) {
@@ -84,7 +103,7 @@ fun LoginPage(navController: NavHostController) {
             onValueChange = {password = it},
             placeholder = "Password",
             leadingIcon = Icons.Default.Lock,
-            isPassword = true  //tutaj doszła zmiana , zobaczymy czy działa
+            isPassword = true
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -100,7 +119,10 @@ fun LoginPage(navController: NavHostController) {
         Spacer(modifier = Modifier.height(40.dp))
 
         Button(
-            onClick = { navController.navigate("home_page") },
+            onClick = {
+//                authViewModel.login(email_or_username, password)
+                navController.navigate("home_page")
+                      }, // enabled = authState.value != AuthState.Loading,
             modifier = Modifier
                 .width(390.dp)
                 .height(50.dp),
@@ -110,14 +132,14 @@ fun LoginPage(navController: NavHostController) {
             Text(text = "Sign in", color = Color.White)
         }
 
-        Spacer(modifier = Modifier.height(250.dp)) // ta wartość będzie ewentualnie modyfikowana , wtedy się pomyśli
+        Spacer(modifier = Modifier.height(250.dp))
 
         Row {
             Text(
                 text = "Dont have an account?",
                 fontSize = 15.sp,
                 color = Colors.PrimaryPurple,
-                fontWeight = FontWeight(400) //nie wiem czy konieczne jest wpisywanie tej wartości, może ona byc tylko domyślna zobaczymy
+                fontWeight = FontWeight(400)
             )
             Spacer(modifier = Modifier.padding(start = 5.dp))
 
@@ -135,3 +157,4 @@ fun LoginPage(navController: NavHostController) {
         }
     }
 }
+

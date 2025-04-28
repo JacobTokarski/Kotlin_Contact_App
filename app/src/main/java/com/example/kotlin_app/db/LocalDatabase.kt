@@ -7,12 +7,12 @@ import androidx.room.TypeConverters
 @Database(entities = [Todo::class], version = 1)
 @TypeConverters(Converters::class)
 
-abstract class TodoDatabase : RoomDatabase(){
+abstract class LocalDatabase : RoomDatabase(){
 
     companion object {
         const val NAME = "Todo_DB"
     }
 
-    abstract fun getTodoDao() : TodoDao
+    abstract fun getTodoDao() : LocalDao
 
 }
