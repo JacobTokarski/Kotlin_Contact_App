@@ -6,10 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -28,6 +30,7 @@ class MainActivity : ComponentActivity() {
         val homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         enableEdgeToEdge()
         val authViewModel: AuthViewModel by viewModels()
+        val viewModel: HomeViewModel by viewModels()
         val modifier = Modifier.fillMaxSize()
         setContent {
             TodoAppTheme {
@@ -35,23 +38,34 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "login_page") {
-                        composable("login_page") {
-                            LoginPage(modifier, navController, authViewModel)
-                        }
-                        composable("register_page") {
-                            RegisterPage(modifier, navController, authViewModel)
-                        }
-                        composable("home_page") {
-                            HomePage(modifier, navController, homeViewModel)
-                        }
-                    }
+                    MyAppNavigation(
+//                        modifier = Modifier.padding(innerPadding),
+                        authViewModel = authViewModel,
+                        viewModel = viewModel
+                    )
                 }
             }
         }
     }
 }
+
+//                    val navController = rememberNavController()
+//                    NavHost(navController = navController, startDestination = "login_page") {
+//                        composable("login_page") {
+//                            LoginPage(modifier, navController, authViewModel)
+//                        }
+//                        composable("register_page") {
+//                            RegisterPage(modifier, navController, authViewModel)
+//                        }
+//                        composable("home_page") {
+//                            HomePage(modifier, navController, homeViewModel)
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 
 
 

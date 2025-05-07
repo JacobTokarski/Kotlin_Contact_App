@@ -23,7 +23,7 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun login(email: String, password: String) {
+    fun login(email: String, password: String) { // do zmiany nazewnictwo funkcji jeśli chodzi o istniejące pliki oraz moje ścieżki
         if (email.isEmpty() || password.isEmpty()){
             _authState.value = AuthState.Error("Email or password can't be empty")
         }
@@ -40,7 +40,7 @@ class AuthViewModel : ViewModel() {
             }
     }
 
-    fun signup(email: String, password: String) {
+    fun signup(email: String, password: String) { // do zmiany nazewnictwo funkcji jeśli chodzi o istniejące pliki oraz moje ścieżki
         if (email.isEmpty() || password.isEmpty()){
             _authState.value = AuthState.Error("Email or password can't be empty")
         }
@@ -57,7 +57,7 @@ class AuthViewModel : ViewModel() {
             }
     }
 
-    fun signout(){
+    fun signout(){ // do zmiany nazewnictwo funkcji jeśli chodzi o istniejące pliki oraz moje ścieżki
         auth.signOut()
         _authState.value = AuthState.Unauthenticated
     }

@@ -66,7 +66,7 @@ fun CustomPasswordField(
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(
                         painter = painterResource(id = icon),
-                        contentDescription = "Toggle password visibility"
+                        contentDescription = "Widoczność hasła"
                     )
                 }
             }

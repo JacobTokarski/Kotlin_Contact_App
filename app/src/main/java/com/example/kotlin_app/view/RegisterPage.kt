@@ -58,21 +58,21 @@ fun RegisterPage(modifier: Modifier, navController: NavHostController, authViewM
     var password by remember { mutableStateOf("") }
     var confirm_password by remember { mutableStateOf("") }
 
-//    val authState = authViewModel.authState.observeAsState()
-//    val context = LocalContext.current
+    val authState = authViewModel.authState.observeAsState()
+    val context = LocalContext.current
 
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = true
 
-//    LaunchedEffect(authState.value) {
-//        when(authState.value){
-//            is AuthState.Authenticated -> navController.navigate(Routes.homepage)
-//            is AuthState.Error -> Toast.makeText(
-//                context,
-//                (authState.value as AuthState.Error).message, Toast.LENGTH_LONG).show()
-//            else -> Unit
-//        }
-//    }
+    LaunchedEffect(authState.value) {
+        when(authState.value){
+            is AuthState.Authenticated -> navController.navigate(Routes.homepage)
+            is AuthState.Error -> Toast.makeText(
+                context,
+                (authState.value as AuthState.Error).message, Toast.LENGTH_LONG).show()
+            else -> Unit
+        }
+    }
 
     SideEffect {
         systemUiController.setSystemBarsColor(
@@ -190,7 +190,10 @@ fun RegisterPage(modifier: Modifier, navController: NavHostController, authViewM
             Spacer(modifier = Modifier.height(80.dp))
 
             Button(
-                onClick = { navController.navigate("login_page") },
+                onClick = {
+                    authViewModel.signup(email, password)
+                },
+                enabled = authState.value != AuthState.Loading,
                 modifier = Modifier
                     .width(390.dp)
                     .height(50.dp),

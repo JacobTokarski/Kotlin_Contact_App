@@ -48,25 +48,27 @@ import com.example.kotlin_app.viewmodel.AuthViewModel
 @Composable
 fun LoginPage(modifier: Modifier, navController: NavHostController, authViewModel: AuthViewModel) {
 
-//    val authState = authViewModel.authState.observeAsState()
-//    val context = LocalContext.current
+    val authState = authViewModel.authState.observeAsState()
+    val context = LocalContext.current
 
     val interactionSource = remember { MutableInteractionSource() }
     var email_or_username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-//    LaunchedEffect(authState.value) {
-//        when (authState.value) {
-//            is AuthState.Authenticated -> navController.navigate(Routes.homepage)
-//            is AuthState.Error -> Toast.makeText(
-//                context,
-//                (authState.value as AuthState.Error).message,
-//                Toast.LENGTH_LONG
-//            ).show()
-//
-//            else -> Unit
-//        }
-//    }
+    LaunchedEffect(authState.value) {
+        when (authState.value) {
+            is AuthState.Authenticated -> navController.navigate(Routes.homepage) {
+                popUpTo(0)
+            }
+            is AuthState.Error -> Toast.makeText(
+                context,
+                (authState.value as AuthState.Error).message,
+                Toast.LENGTH_LONG
+            ).show()
+
+            else -> Unit
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -120,9 +122,9 @@ fun LoginPage(modifier: Modifier, navController: NavHostController, authViewMode
 
         Button(
             onClick = {
-//                authViewModel.login(email_or_username, password)
-                navController.navigate("home_page")
-                      }, // enabled = authState.value != AuthState.Loading,
+                authViewModel.login(email_or_username, password)
+//                navController.navigate(Routes.homepage)
+                      }, enabled = authState.value != AuthState.Loading,
             modifier = Modifier
                 .width(390.dp)
                 .height(50.dp),
@@ -157,4 +159,6 @@ fun LoginPage(modifier: Modifier, navController: NavHostController, authViewMode
         }
     }
 }
+
+
 
