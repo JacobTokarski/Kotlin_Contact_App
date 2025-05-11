@@ -57,7 +57,7 @@ class AuthViewModel : ViewModel() {
             }
     }
 
-    fun signout(){ // do zmiany nazewnictwo funkcji jeśli chodzi o istniejące pliki oraz moje ścieżki
+    fun signout(){ //
         auth.signOut()
         _authState.value = AuthState.Unauthenticated
     }
