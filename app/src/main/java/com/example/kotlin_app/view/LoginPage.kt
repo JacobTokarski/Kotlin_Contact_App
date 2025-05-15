@@ -123,7 +123,6 @@ fun LoginPage(modifier: Modifier, navController: NavHostController, authViewMode
         Button(
             onClick = {
                 authViewModel.login(email_or_username, password)
-//                navController.navigate(Routes.homepage)
                       }, enabled = authState.value != AuthState.Loading,
             modifier = Modifier
                 .width(390.dp)

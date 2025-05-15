@@ -1,0 +1,68 @@
+package com.example.kotlin_app.utils
+
+// To będzie custom text field strikte pod ekran Home i ekran związany z numerem telefonu
+
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.kotlin_app.R
+import com.example.kotlin_app.viewmodel.AuthState
+
+@Composable
+fun CustomPhoneField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String = "Numer telefonu"
+) {
+    var phoneError by remember { mutableStateOf(false) }
+
+    OutlinedTextField(
+        value = value,
+        onValueChange = {
+            onValueChange(it)
+            phoneError = it.isNotEmpty() && !it.all { char -> char.isDigit() }
+        },
+        isError = phoneError,
+        label = { Text(label) },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        singleLine = true,
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Colors.SecondPurple,
+            unfocusedIndicatorColor = Colors.SecondPurple,
+            unfocusedContainerColor = Color.White,
+            focusedContainerColor = Color.White,
+        )
+    )
+
+    if (phoneError) {
+        Text(
+            text = "Only numbers are allowed - please try again!",
+            color = Color.Red,
+            fontSize = 13.sp,
+            modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+        )
+    }
+}
