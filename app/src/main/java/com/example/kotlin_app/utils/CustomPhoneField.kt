@@ -2,6 +2,7 @@ package com.example.kotlin_app.utils
 
 // To będzie custom text field strikte pod ekran Home i ekran związany z numerem telefonu
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -35,34 +36,56 @@ fun CustomPhoneField(
     onValueChange: (String) -> Unit,
     label: String = "Numer telefonu"
 ) {
-    var phoneError by remember { mutableStateOf(false) }
+    var phoneErrorMessage by remember { mutableStateOf<String?>(null) }
 
-    OutlinedTextField(
-        value = value,
-        onValueChange = {
-            onValueChange(it)
-            phoneError = it.isNotEmpty() && !it.all { char -> char.isDigit() }
-        },
-        isError = phoneError,
-        label = { Text(label) },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-        singleLine = true,
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
-        colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Colors.SecondPurple,
-            unfocusedIndicatorColor = Colors.SecondPurple,
-            unfocusedContainerColor = Color.White,
-            focusedContainerColor = Color.White,
-        )
-    )
+    val handleChange: (String) -> Unit = { input ->
+        when {
+            input.any { !it.isDigit() } -> {
+                phoneErrorMessage = "Phone number can only contain numbers , please try again!."
+            }
+            input.length > 9 -> {
+                phoneErrorMessage = "Wrong number format use only 9 numbers!"
+            }
 
-    if (phoneError) {
-        Text(
-            text = "Only numbers are allowed - please try again!",
-            color = Color.Red,
-            fontSize = 13.sp,
-            modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+            else -> {
+                phoneErrorMessage = null
+                onValueChange(input)
+            }
+        }
+
+        if (input.all { it.isDigit() } && input.length <= 9) {
+            onValueChange(input)
+        }
+    }
+
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        OutlinedTextField(
+            value = value,
+            onValueChange = handleChange,
+            label = { Text(label) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            singleLine = true,
+            isError = phoneErrorMessage != null,
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(20.dp),
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Colors.SecondPurple,
+                unfocusedIndicatorColor = Colors.SecondPurple,
+                unfocusedContainerColor = Color.White,
+                focusedContainerColor = Color.White,
+            )
         )
+
+        if (phoneErrorMessage != null) {
+            Text(
+                text = phoneErrorMessage!!,
+                color = Color.Red,
+                fontSize = 13.sp,
+                modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+            )
+        }
     }
 }
+

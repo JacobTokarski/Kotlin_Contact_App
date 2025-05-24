@@ -2,7 +2,6 @@ package com.example.kotlin_app.home
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -42,7 +41,7 @@ import java.util.*
 
 @Composable
 fun HomePage(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     navController: NavHostController,
     authViewModel: AuthViewModel,
     viewModel: HomeViewModel
@@ -55,6 +54,8 @@ fun HomePage(
     var surname by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
     var phoneError by remember { mutableStateOf(false) }
+    var isEditing by remember { mutableStateOf(false) }
+    var editingTodoId by remember { mutableStateOf<Int?>(null) }
 
     val authState = authViewModel.authState.observeAsState()
 
@@ -64,7 +65,7 @@ fun HomePage(
         }
     }
 
-    Column {
+    Column(modifier = modifier) {
         Row(
             modifier = Modifier
                 .clickable(
@@ -76,11 +77,12 @@ fun HomePage(
                 .padding(start = 12.dp, top = 55.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
+            Icon(
                 painter = painterResource(id = R.drawable.arrow),
                 contentDescription = "Back Icon",
                 modifier = Modifier.size(20.dp)
             )
+            Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = "Back",
                 color = Colors.PrimaryPurple,
@@ -90,7 +92,6 @@ fun HomePage(
         }
 
         Spacer(modifier = Modifier.height(8.dp))
-
 
         Box(modifier = Modifier.fillMaxSize()) {
             if (todoList.isNullOrEmpty()) {
@@ -132,9 +133,19 @@ fun HomePage(
             } else {
                 LazyColumn {
                     itemsIndexed(todoList!!) { _, item ->
-                        TodoItem(item = item) {
-                            viewModel.deleteTodo(item.id)
-                        }
+                        TodoItem(
+                            item = item,
+                            onDelete = { viewModel.deleteTodo(item.id) },
+                            onEdit = {
+                                val parts = item.title.substringBefore(" tel: ").trim().split(" ")
+                                name = parts.getOrNull(0) ?: ""
+                                surname = parts.getOrNull(1) ?: ""
+                                phone = Regex("""tel:\s*(\d+)""").find(item.title)?.groupValues?.get(1) ?: ""
+                                isEditing = true
+                                editingTodoId = item.id
+                                showDialog = true
+                            }
+                        )
                     }
                 }
             }
@@ -153,7 +164,14 @@ fun HomePage(
                         .size(56.dp)
                         .clip(RoundedCornerShape(12.dp))
                         .background(Colors.PrimaryPurple)
-                        .clickable { showDialog = true }
+                        .clickable {
+                            isEditing = false
+                            editingTodoId = null
+                            name = ""
+                            surname = ""
+                            phone = ""
+                            showDialog = true
+                        }
                         .padding(12.dp)
                 )
             }
@@ -164,14 +182,11 @@ fun HomePage(
                 containerColor = Colors.BackgroundColor,
                 onDismissRequest = { showDialog = false },
                 title = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp,
-                            text = "Nowy kontakt", )
-                    }
+                    Text(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        text = if (isEditing) "Edytuj kontakt" else "Nowy kontakt"
+                    )
                 },
                 text = {
                     Column(
@@ -213,24 +228,47 @@ fun HomePage(
                         )
                     }
                 },
+
                 confirmButton = {
                     TextButton(
                         onClick = {
                             if (phone.isNotBlank() && name.isNotBlank() && surname.isNotBlank() && !phoneError) {
-                                viewModel.addTodo("$name $surname tel: $phone")
+                                if (isEditing && editingTodoId != null) {
+                                    viewModel.updateTodo(
+                                        Todo(
+                                            id = editingTodoId!!,
+                                            title = "$name $surname tel: $phone",
+                                            createdAt = Date()
+                                        )
+                                    )
+                                } else {
+                                    viewModel.addTodo("$name $surname tel: $phone")
+                                }
                                 showDialog = false
                                 name = ""
                                 surname = ""
                                 phone = ""
+                                isEditing = false
+                                editingTodoId = null
                             }
                         }
                     ) {
-                        Text("Add")
+                        Text(if (isEditing) "Save" else "Add")
                     }
                 },
+
                 dismissButton = {
-                    TextButton(onClick = { showDialog = false }) {
-                        Text("Cancel")
+                    TextButton(
+                        onClick = {
+                            showDialog = false
+                            isEditing = false
+                            editingTodoId = null
+                            name = ""
+                            surname = ""
+                            phone = ""
+                        }
+                    ) {
+                        Text("Anuluj")
                     }
                 }
             )
@@ -241,7 +279,8 @@ fun HomePage(
 @Composable
 fun TodoItem(
     item: Todo,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    onEdit: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -289,6 +328,14 @@ fun TodoItem(
                 )
             }
 
+            IconButton(onClick = onEdit) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_edit_24),
+                    contentDescription = "Edit",
+                    tint = Color.White
+                )
+            }
+
             IconButton(onClick = onDelete) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_delete_24),
@@ -299,7 +346,6 @@ fun TodoItem(
         }
     }
 }
-
 
 
 

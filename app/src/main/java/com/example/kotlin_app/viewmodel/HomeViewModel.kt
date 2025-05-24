@@ -27,4 +27,10 @@ class HomeViewModel : ViewModel() {
             todoDao.deleteTodo(id)
         }
     }
+
+    fun updateTodo(todo: Todo) {
+        viewModelScope.launch(Dispatchers.IO) {
+            todoDao.updateTodo(todo)
+        }
+    }
 }

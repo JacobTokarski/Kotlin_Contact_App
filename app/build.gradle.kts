@@ -45,12 +45,13 @@ dependencies {
 
     implementation(libs.firebase.auth)
     val room_version = "2.6.1"
-    //Lottie
+
     implementation ("com.airbnb.android:lottie-compose:6.1.0")
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.compose.runtime:runtime-livedata:1.7.8")
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
     kapt("androidx.room:room-compiler:$room_version")
+    implementation ("androidx.room:room-ktx:2.5.2")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

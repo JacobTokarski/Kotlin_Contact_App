@@ -95,12 +95,12 @@ fun RegisterPage(modifier: Modifier, navController: NavHostController, authViewM
                 modifier = Modifier
                     .clickable(
                         interactionSource = interactionSource,
-                        indication = null // Usuwa poświatę takiego szarego kwadratu podczas naciśnięcia na back
-                    ) { navController.popBackStack() } // możliwość powrotu do poprzedniego ekranu
+                        indication = null
+                    ) { navController.popBackStack() }
                     .padding(
                         start = 12.dp,
                         top = 59.dp
-                    ), //odległość całej struktury przycisku Back na ekranie Register
+                    ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
@@ -126,7 +126,6 @@ fun RegisterPage(modifier: Modifier, navController: NavHostController, authViewM
                     .padding(top = 10.dp)
             )
         }
-
 
         Column(
             modifier = Modifier
