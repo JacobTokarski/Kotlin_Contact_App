@@ -3,7 +3,7 @@
 </p>
 
 
-# 📱 Mobile Contact App - Jetpack Compose/Kotlin
+# 📱 Mobile Contact App
 
 • Author: Jakub Tokarski, Index: 51700 
 
