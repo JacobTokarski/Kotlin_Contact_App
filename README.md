@@ -48,10 +48,6 @@ All data is stored locally, with session persistence handled via Shared Preferen
   
 - **Firebase Authentication** – Secure user login and registration
 
-## 🚀 How to Run the Project
-
-For now empty space , we will add instruction there later
-
 ## 📄 License
 
 This application was developed as part of academic coursework at **Uniwersytet Dolnośląski DSW Wrocław** and is intended solely for educational purposes.  
